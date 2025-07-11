@@ -436,26 +436,35 @@
             gap: 1rem;
             margin-top: 2rem;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         .social-link {
-            width: 50px;
-            height: 50px;
             background: #007bff;
             color: white;
-            border-radius: 50%;
+            border-radius: 25px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
             transition: all 0.3s;
-            font-size: 1.2rem;
+            font-size: 1rem;
+            padding: 0.8rem 1.5rem;
+            font-weight: bold;
+            gap: 0.5rem;
         }
 
         .social-link:hover {
             background: #0056b3;
             transform: translateY(-2px);
         }
+        .social-icon {
+            font-size: 1.2rem;
+        }
+        .social-text{
+            font-size: 0.9rem;
+        }
+
 
         /* Admin Modal */
         .admin-modal {
@@ -670,6 +679,16 @@
             .admin-tabs {
                 flex-wrap: wrap;
             }
+            .social-links{
+                flex-direction: column;
+                align-items: center;
+            }
+            .social-link{
+                width: 200px;
+                justify-content:flex-start;
+                padding: 1rem 1.5rem;
+            }
+
         }
 
         /* Smooth Scrolling */
@@ -1150,12 +1169,12 @@
     "socialLinks": [
       {
         "platform": "linkedin",
-        "url": "https://linkedin.com/in/abhiiit-star",
+        "url": "https://www.linkedin.com/in/abhishek-tiwari-43403021b/",
         "icon": "💼"
       },
       {
         "platform": "github",
-        "url": "https://github.com/abhiiit-star",
+        "url": "https://github.com/abhi-iitk26",
         "icon": "🐙"
       },
       {
@@ -1231,7 +1250,7 @@
           "level": 0
         },
         {
-          "name": "",
+          "name": "TensorFlow",
           "level": 50
         }
       ]
@@ -1486,17 +1505,40 @@
             document.getElementById('phoneNumber').textContent = websiteData.profile.contact.phone;
             document.getElementById('location').textContent = websiteData.profile.contact.location;
             
-            // Render social links
+            // Render social links with text labels
             const socialContainer = document.getElementById('socialLinks');
             socialContainer.innerHTML = '';
             
+            // Platform name mapping
+            const platformNames = {
+                linkedin: 'LinkedIn',
+                github: 'GitHub',
+                twitter: 'Twitter',
+                instagram: 'Instagram',
+                facebook: 'Facebook',
+                youtube: 'YouTube'
+            };
+            
             websiteData.profile.socialLinks.forEach(social => {
-                const socialLink = document.createElement('a');
-                socialLink.href = social.url;
-                socialLink.className = 'social-link';
-                socialLink.target = '_blank';
-                socialLink.innerHTML = social.icon;
-                socialContainer.appendChild(socialLink);
+                if (social.url && social.url !== '#') {
+                    const socialLink = document.createElement('a');
+                    socialLink.href = social.url;
+                    socialLink.className = 'social-link';
+                    socialLink.target = '_blank';
+                    
+                    // Create icon and text elements
+                    const iconSpan = document.createElement('span');
+                    iconSpan.className = 'social-icon';
+                    iconSpan.innerHTML = social.icon;
+                    
+                    const textSpan = document.createElement('span');
+                    textSpan.className = 'social-text';
+                    textSpan.textContent = platformNames[social.platform] || social.platform;
+                    
+                    socialLink.appendChild(iconSpan);
+                    socialLink.appendChild(textSpan);
+                    socialContainer.appendChild(socialLink);
+                }
             });
         }
 
@@ -1633,7 +1675,7 @@
 
         function updateSocialLink(index, field, value) {
             if (!websiteData.profile.socialLinks[index]) {
-                websiteData.profile.socialLinks[index] = { platform: 'linkedin', url: '', icon: '💼' };
+                websiteData.profile.socialLinks[index] = { platform: 'linkedin', url: 'https://www.linkedin.com/in/abhishek-tiwari-43403021b/', icon: '💼' };
             }
             websiteData.profile.socialLinks[index][field] = value;
             
